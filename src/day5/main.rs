@@ -50,8 +50,8 @@ fn part2() -> Result<()> {
     let index = seats_full
         .iter()
         .enumerate()
-        .skip_while(|(_, v)| v == &&0)
-        .skip_while(|(_, v)| v == &&1)
+        .skip_while(|(_, v)| **v == 0)
+        .skip_while(|(_, v)| **v == 1)
         .take(1)
         .next();
     println!("found my seat! seat id is {:?}", index.unwrap().0);
