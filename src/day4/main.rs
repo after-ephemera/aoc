@@ -85,7 +85,7 @@ fn validate(k: &str, v: &str) -> bool {
             };
         }
         "hcl" => {
-            let re = Regex::new(r"#[a-f0-9]{6}").unwrap();
+            let re = Regex::new(r"\#[a-f0-9]{6}").unwrap();
             re.is_match(v)
         }
         "ecl" => {
@@ -99,7 +99,7 @@ fn validate(k: &str, v: &str) -> bool {
             }
         }
         "pid" => {
-            let re = Regex::new(r"[0-9]{9}").unwrap();
+            let re = Regex::new(r"^[0-9]{9}$").unwrap();
             re.is_match(v)
         }
         "cid" => true,
@@ -121,7 +121,7 @@ fn part2() -> Result<()> {
 
     let mut invalid_count_map = HashMap::new();
     for line in lines {
-        println!("");
+        //println!("");
         //println!("\n{}\n", line);
         let mut passport_map = HashMap::new();
         for l in line.split(|c| c == ' ' || c == '\n') {
@@ -134,7 +134,7 @@ fn part2() -> Result<()> {
             if validate(k, v) {
                 passport_map.insert(k.to_string(), v);
             } else {
-                println!("invalid {}", k);
+                //println!("invalid {}", k);
                 let counter = invalid_count_map.entry(k).or_insert(0);
                 *counter += 1;
             }
@@ -147,10 +147,6 @@ fn part2() -> Result<()> {
         let matching = keys_found_str
             .iter()
             .zip(&valid_fields)
-            // .map(|(a, b)| {
-            // println!("{:?}, {:?}. Equal? {}", a, b, a == b);
-            // (a, b)
-            // })
             .filter(|&(a, b)| a == b)
             .count();
         let valid_passport = matching == valid_fields.len();
@@ -164,12 +160,14 @@ fn part2() -> Result<()> {
         "{} valid passports, {} invalid passports",
         valid_count, invalid_count
     );
-    println!("{:?}", invalid_count_map);
+    //println!("{:?}", invalid_count_map);
     Ok(())
 }
 
 fn main() -> Result<()> {
+    println!("part 1:");
     part1()?;
+    println!("part 2:");
     part2()?;
     Ok(())
 }
