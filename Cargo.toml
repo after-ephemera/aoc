@@ -24,6 +24,14 @@ path = "src/day4/main.rs"
 name = "day5"
 path = "src/day5/main.rs"
 
+[[bin]]
+name = "day6"
+path = "src/day6/main.rs"
+
+[[bin]]
+name = "day7"
+path = "src/day7/main.rs"
+
 [dependencies]
 eyre = "0.6.3"
 regex = "1.4.2"
