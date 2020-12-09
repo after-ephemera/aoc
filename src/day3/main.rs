@@ -30,7 +30,7 @@ impl Map {
     fn slide(&mut self, hz: usize, vrt: usize) {
         self.toboggan.row += vrt;
         self.toboggan.col += hz;
-        self.toboggan.col = self.toboggan.col % self.width;
+        self.toboggan.col %= self.width;
 
         if self.toboggan.row > self.height - 1 {
             return;
@@ -48,7 +48,7 @@ fn gen_map(map_str: &str) -> Map {
     let height = lines.len() - 1;
     let mut width = 0;
     for line in lines {
-        if line == "" {
+        if line.is_empty() {
             continue;
         }
         //println!("line:{}", line);

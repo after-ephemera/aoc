@@ -30,13 +30,13 @@ impl Program {
 
         let program_code: Vec<(String, i32)> = input
             .split('\n')
-            .filter(|line| *line != "")
+            .filter(|line| !line.is_empty())
             .map(|line| {
                 let cap = INSTRUCTION_RE.captures_iter(line).next().unwrap();
                 let op = cap[1].to_string();
                 let count = cap[2].parse::<i32>().unwrap();
                 //println!("op: {}, count: {}", op, count);
-                return (op, count);
+                (op, count)
             })
             .collect();
         Ok(Program::new(program_code))
@@ -125,12 +125,9 @@ impl Program {
     fn fix_and_run(&self) -> Option<Program> {
         for possible_variation in self.get_possible_corrupt_variations() {
             let mut possibly_fixed_program = Program::new(possible_variation);
-            match possibly_fixed_program.run() {
-                RunStatus::EndOfProgram => {
-                    println!("found the end!");
-                    return Some(possibly_fixed_program);
-                }
-                _ => (),
+            if let RunStatus::EndOfProgram = possibly_fixed_program.run() {
+                println!("found the end!");
+                return Some(possibly_fixed_program);
             }
         }
         None

@@ -6,7 +6,7 @@ use std::vec::Vec;
 
 fn part1() -> Result<()> {
     let mut valid_fields = vec!["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
-    valid_fields.sort();
+    valid_fields.sort_unstable();
     let input = read_to_string("src/day4/input.txt")?;
     let lines: Vec<&str> = input.split("\n\n").collect();
     let mut valid_count = 0;
@@ -17,7 +17,7 @@ fn part1() -> Result<()> {
         //println!("\n{}\n", line);
         let mut passport_map = HashMap::new();
         for l in line.split(|c| c == ' ' || c == '\n') {
-            if l == "" {
+            if l.is_empty() {
                 continue;
             }
             let k_v: Vec<&str> = l.split(':').collect();
@@ -29,7 +29,7 @@ fn part1() -> Result<()> {
         let keys_found: Vec<String> = passport_map.keys().cloned().collect();
         // convert to &str for easier comparison
         let mut keys_found_str: Vec<&str> = keys_found.iter().map(|s| s as &str).collect();
-        keys_found_str.sort();
+        keys_found_str.sort_unstable();
         let matching = keys_found_str
             .iter()
             .zip(&valid_fields)
@@ -74,12 +74,12 @@ fn validate(k: &str, v: &str) -> bool {
                 let res: Vec<&str> = v.split("cm").collect();
                 let val = res[0].parse::<i32>().unwrap();
                 // println!("{} cm ", val);
-                150 <= val && val <= 193
+                (150..193).contains(&val)
             } else if is_in {
                 let res: Vec<&str> = v.split("in").collect();
                 let val = res[0].parse::<i32>().unwrap();
                 // println!("{} in ", val);
-                59 <= val && val <= 76
+                (59..=76).contains(&val)
             } else {
                 false
             };
@@ -89,14 +89,12 @@ fn validate(k: &str, v: &str) -> bool {
             re.is_match(v)
         }
         "ecl" => {
-            if let Some(_) = vec!["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
-                .iter()
-                .find(|s| s == &&v)
-            {
-                true
-            } else {
-                false
-            }
+            matches!(
+                vec!["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
+                    .iter()
+                    .find(|s| s == &&v),
+                Some(_)
+            )
         }
         "pid" => {
             let re = Regex::new(r"^[0-9]{9}$").unwrap();
@@ -112,7 +110,7 @@ fn validate(k: &str, v: &str) -> bool {
 
 fn part2() -> Result<()> {
     let mut valid_fields = vec!["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
-    valid_fields.sort();
+    valid_fields.sort_unstable();
     //let input = read_to_string("src/day4/input-sample-invalid.txt")?;
     let input = read_to_string("src/day4/input.txt")?;
     let lines: Vec<&str> = input.split("\n\n").collect();
@@ -125,7 +123,7 @@ fn part2() -> Result<()> {
         //println!("\n{}\n", line);
         let mut passport_map = HashMap::new();
         for l in line.split(|c| c == ' ' || c == '\n') {
-            if l == "" {
+            if l.is_empty() {
                 continue;
             }
             let k_v: Vec<&str> = l.split(':').collect();
@@ -143,7 +141,7 @@ fn part2() -> Result<()> {
         let keys_found: Vec<String> = passport_map.keys().cloned().collect();
         // convert to &str for easier comparison
         let mut keys_found_str: Vec<&str> = keys_found.iter().map(|s| s as &str).collect();
-        keys_found_str.sort();
+        keys_found_str.sort_unstable();
         let matching = keys_found_str
             .iter()
             .zip(&valid_fields)

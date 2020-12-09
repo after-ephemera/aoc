@@ -8,7 +8,7 @@ fn part_2() {
     for sub in s.split('\n') {
         for sub2 in s.split('\n') {
             for sub3 in s.split('\n') {
-                if sub == "" || sub2 == "" || sub3 == "" {
+                if sub.is_empty() || sub2.is_empty() || sub3.is_empty() {
                     continue;
                 }
                 //println!("{}", sub);
@@ -40,7 +40,7 @@ fn part_1() {
     f.read_to_string(&mut s).unwrap();
     for sub in s.split('\n') {
         for sub2 in s.split('\n') {
-            if sub == "" || sub2 == "" {
+            if sub.is_empty() || sub2.is_empty() {
                 continue;
             }
             println!("{}", sub);

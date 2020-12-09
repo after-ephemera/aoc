@@ -8,7 +8,7 @@ fn part_1() -> Result<()> {
 
     let mut valid_count = 0;
     for line in lines {
-        if line == "" {
+        if line.is_empty() {
             continue;
         }
         let parts: Vec<&str> = line.split(' ').collect();
@@ -40,7 +40,7 @@ fn part_2() -> Result<()> {
 
     let mut valid_count = 0;
     for line in lines {
-        if line == "" {
+        if line.is_empty() {
             continue;
         }
         let parts: Vec<&str> = line.split(' ').collect();

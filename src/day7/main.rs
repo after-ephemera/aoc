@@ -1,6 +1,6 @@
 use eyre::Result;
 use regex::Regex;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use std::fmt;
 use std::fs::read_to_string;
 use std::vec::Vec;
@@ -29,7 +29,7 @@ impl fmt::Display for BagNode {
 impl BagNode {
     fn new(color: String) -> BagNode {
         BagNode {
-            color: color,
+            color,
             contents: HashMap::new(),
         }
     }
@@ -50,7 +50,7 @@ impl BagGraph {
         let new_node = self
             .nodes
             .entry(color.clone())
-            .or_insert(BagNode::new(color.clone()));
+            .or_insert_with(|| BagNode::new(color.clone()));
         for n in contents {
             if let Some(content) = n.0 {
                 new_node.add_contents(content, n.1);
@@ -91,7 +91,7 @@ impl BagGraph {
         for (content, content_count) in current_root.contents.clone() {
             count += content_count * self.count_contents(&content);
         }
-        return count;
+        count
     }
 }
 
@@ -107,12 +107,12 @@ fn gen_graph(input: String) -> Result<BagGraph> {
             .split(',')
             .map(|contains| {
                 let contained = contains_re.captures(&contains);
-                return if let Some(contained_val) = contained {
+                if let Some(contained_val) = contained {
                     let child_color = contained_val[2].to_string();
                     (Some(child_color), contained_val[1].parse::<u32>().unwrap())
                 } else {
                     (None, 0)
-                };
+                }
             })
             .collect();
         graph.add_node(primary_color, contains_results);
