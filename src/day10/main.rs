@@ -16,7 +16,6 @@ fn part1(input: Vec<isize>) -> Result<()> {
             _ => (),
         }
         last = *line;
-        //println!("{}", line);
     }
     // add the final adapter, always three higher than the highest.
     three_jolt_diffs += 1;
@@ -34,17 +33,21 @@ fn find_possible_solutions(
     value: isize,
     visited: &mut HashMap<isize, isize>,
 ) -> isize {
+    // memoized
     return if let Some(&v) = visited.get(&value) {
         v
     } else if value == 0 {
-        visited.insert(value, 1);
+        // reached the end
         1
     } else if value < 0 || !input.contains(&value) {
+        // not a valid solution
         0
     } else {
+        // search a little deeper
         let result = find_possible_solutions(input, value - 1, visited)
             + find_possible_solutions(input, value - 2, visited)
             + find_possible_solutions(input, value - 3, visited);
+        // memoize
         visited.insert(value, result);
         result
     };
@@ -55,9 +58,6 @@ fn part2(input: &HashSet<isize>) -> isize {
 }
 
 fn main() -> Result<()> {
-    //let mut input: Vec<isize> = read_to_string("src/day10/input-simple.txt")?
-    //let mut input: Vec<isize> = read_to_string("src/day10/input-sample.txt")?
-    //let mut input: Vec<isize> = read_to_string("src/day10/input-sample2.txt")?
     let mut input: Vec<isize> = read_to_string("src/day10/input.txt")?
         .split('\n')
         .filter(|x| !x.is_empty())
