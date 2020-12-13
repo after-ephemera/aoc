@@ -28,18 +28,14 @@ impl Map {
             self.inner
                 .get((x + 1) as usize)
                 .and_then(|i| i.get((y - 1) as usize)),
-            self.inner
-                .get((x + 1) as usize)
-                .and_then(|i| Some(&i[y as usize])),
+            self.inner.get((x + 1) as usize).map(|i| &i[y as usize]),
             self.inner
                 .get((x + 1) as usize)
                 .and_then(|i| i.get((y + 1) as usize)),
             self.inner
                 .get((x - 1) as usize)
                 .and_then(|i| i.get((y + 1) as usize)),
-            self.inner
-                .get((x - 1) as usize)
-                .and_then(|i| Some(&i[y as usize])),
+            self.inner.get((x - 1) as usize).map(|i| &i[y as usize]),
             self.inner
                 .get((x - 1) as usize)
                 .and_then(|i| i.get((y - 1) as usize)),
@@ -60,10 +56,7 @@ impl Map {
         let dx = x + delta_x;
         let dy = y + delta_y;
 
-        return if dx < 0
-            || dy < 0
-            || dx >= self.inner.len() as isize
-            || dy >= self.inner[0].len() as isize
+        if dx < 0 || dy < 0 || dx >= self.inner.len() as isize || dy >= self.inner[0].len() as isize
         {
             None
         } else if self.inner[dx as usize][dy as usize] == '#'
@@ -73,7 +66,7 @@ impl Map {
             Some(self.inner[dx as usize][dy as usize])
         } else {
             self.visible_in_direction(x + delta_x, y + delta_y, delta_x, delta_y)
-        };
+        }
     }
 
     fn visible(&self, x: isize, y: isize) -> Vec<char> {
@@ -89,7 +82,7 @@ impl Map {
         ]
         .iter()
         .flatten()
-        .map(|x| *x)
+        .copied()
         .collect()
     }
 
@@ -167,15 +160,15 @@ impl Map {
 
 impl fmt::Display for Map {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "\n")?;
+        writeln!(f)?;
         for line in &self.inner {
-            write!(f, "{:?}\n", line)?;
+            writeln!(f, "{:?}", line)?;
         }
         write!(f, "")
     }
 }
 
-fn build_map(lines: &Vec<&str>, map_type: MapType) -> Map {
+fn build_map(lines: &[&str], map_type: MapType) -> Map {
     let mut result = vec![];
     for line in lines {
         let mut line_result = vec![];
@@ -190,7 +183,10 @@ fn build_map(lines: &Vec<&str>, map_type: MapType) -> Map {
 fn main() -> Result<()> {
     let input = read_to_string("src/day11/input.txt")?;
     //let input = read_to_string("src/day11/input.txt")?;
-    let mut map = build_map(&input.split_whitespace().collect(), MapType::Adjacent);
+    let mut map = build_map(
+        &input.split_whitespace().collect::<Vec<&str>>(),
+        MapType::Adjacent,
+    );
     //println!("before: {}", map);
     let iteration_count = map.run_till_stable();
     println!("took {} iterations", iteration_count);
@@ -198,7 +194,10 @@ fn main() -> Result<()> {
     println!("there are now {} occupied seats", map.count_occupied());
 
     println!("part 2!");
-    let mut map = build_map(&input.split_whitespace().collect(), MapType::Visibility);
+    let mut map = build_map(
+        &input.split_whitespace().collect::<Vec<&str>>(),
+        MapType::Visibility,
+    );
     let iteration_count = map.run_till_stable();
     //map.next();
     //println!("after: {}", map);

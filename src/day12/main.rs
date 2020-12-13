@@ -23,35 +23,14 @@ impl Add<i32> for CardinalDirection {
         ]
         .iter();
         let index: usize = i.clone().position(|x| *x == self).unwrap();
-        //println!("index is {} for {:?}", index, self);
-        let cycle = i.cycle();
+        let mut cycle = i.cycle();
 
-        //println!(
-        //    "trying to take {} from {} with other {}",
-        //    (index as i32 + 4 + other),
-        //    (index as i32 + 4 + other) as usize,
-        //    other
-        //);
-        let r = cycle
-            .skip((index as i32 + 4 + other) as usize)
-            .next()
-            .unwrap();
-        //println!("direction was {:?} + {} = {:?}", self, other, r);
+        let r = cycle.nth((index as i32 + 4 + other) as usize).unwrap();
         *r
     }
 }
 
 impl CardinalDirection {
-    //fn from(value: char) -> Self {
-    //match value {
-    //'N' => Self::North,
-    //'E' => Self::East,
-    //'S' => Self::South,
-    //'W' => Self::West,
-    //_ => Self::North,
-    //}
-    //}
-
     fn char(&self) -> char {
         match self {
             Self::North => 'N',
@@ -70,7 +49,6 @@ impl Add<CardinalDelta> for CardinalDelta {
     type Output = CardinalDelta;
 
     fn add(self, other: CardinalDelta) -> CardinalDelta {
-        //println!("adding {:?} to {:?}", self, other);
         CardinalDelta(self.0 + other.0, self.1 + other.1)
     }
 }
@@ -82,24 +60,8 @@ impl AddAssign for CardinalDelta {
 }
 
 impl CardinalDelta {
-    fn quadrant(&self) -> u8 {
-        return if self.0 >= 0 && self.1 <= 0 {
-            0
-        } else if self.0 >= 0 && self.1 > 0 {
-            1
-        } else if self.0 < 0 && self.1 > 0 {
-            2
-        } else if self.0 < 0 && self.1 <= 0 {
-            3
-        } else {
-            println!("quadrant not in known spacetime continuum");
-            42
-        };
-    }
-
     fn rotate(&mut self, direction: char, count: u32) {
         for _ in 0..count {
-            println!("rotating from quadrant {}", self.quadrant());
             let tmp = self.0;
             self.0 = self.1;
             self.1 = tmp;
@@ -108,11 +70,6 @@ impl CardinalDelta {
                 'L' => self.1 = -self.1,
                 _ => println!("cannot compute"),
             }
-            //match (direction, self.quadrant()) {
-            //('L', 0) | ('R', 1) | ('L', 2) | ('R', 3) => self.0 = -self.0,
-            //('R', 0) | ('L', 1) | ('R', 2) | ('L', 3) => self.1 = -self.1,
-            //_ => (),
-            //}
         }
     }
 }
@@ -143,14 +100,11 @@ impl Ship {
 
     fn rotate(&mut self, dir: char, ticks: u32) {
         match self.ship_type {
-            ShipType::Navigational => {
-                //println!("turning {}", dir);
-                match dir {
-                    'L' => self.facing = self.facing + (-1 * (ticks as i32)),
-                    'R' => self.facing = self.facing + 1 * ticks as i32,
-                    _ => println!("failure!"),
-                }
-            }
+            ShipType::Navigational => match dir {
+                'L' => self.facing = self.facing + -(ticks as i32),
+                'R' => self.facing = self.facing + ticks as i32,
+                _ => println!("failure!"),
+            },
             ShipType::Waypoint => self.waypoint_delta.rotate(dir, ticks),
         }
     }
@@ -223,10 +177,10 @@ fn main() -> Result<()> {
         let chars: Vec<char> = command.chars().collect();
         let dir = &chars[0];
         let count: u32 = chars[1..].iter().collect::<String>().parse()?;
-        println!("{} for {}", *dir, count);
-        println!("before: {:?}", ship);
+        //println!("{} for {}", *dir, count);
+        //println!("before: {:?}", ship);
         ship.move_by(*dir, count);
-        println!("after: {:?}", ship);
+        //println!("after: {:?}", ship);
     }
     println!("final ship: {:?}", ship);
     println!("final manhattan delta: {}", ship.manhattan_delta());

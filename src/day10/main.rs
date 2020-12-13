@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs::read_to_string;
 
-fn part1(input: Vec<isize>) -> Result<()> {
+fn part1(input: Vec<isize>) {
     let mut last = input[0];
     // first adapter always adds one
     let mut one_jolt_diffs = 1;
@@ -25,7 +25,6 @@ fn part1(input: Vec<isize>) -> Result<()> {
         three_jolt_diffs,
         one_jolt_diffs * three_jolt_diffs
     );
-    Ok(())
 }
 
 fn find_possible_solutions(
@@ -64,7 +63,7 @@ fn main() -> Result<()> {
         .map(|x| x.parse::<isize>().unwrap())
         .collect();
     input.sort_unstable();
-    part1(input)?;
+    part1(input);
     let input = read_to_string("src/day10/input.txt")?
         .split('\n')
         .filter(|x| !x.is_empty())

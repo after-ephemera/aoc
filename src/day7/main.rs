@@ -95,7 +95,7 @@ impl BagGraph {
     }
 }
 
-fn gen_graph(input: String) -> Result<BagGraph> {
+fn gen_graph(input: String) -> BagGraph {
     let main_re = Regex::new(r"(?m)^(.*) bags contain (.*,?)+\n").unwrap();
     let contains_re = Regex::new(r"(\d+) (.*) bag[s]?[.]?").unwrap();
     let mut graph = BagGraph::new();
@@ -117,11 +117,11 @@ fn gen_graph(input: String) -> Result<BagGraph> {
             .collect();
         graph.add_node(primary_color, contains_results);
     }
-    Ok(graph)
+    graph
 }
 
 fn main() -> Result<()> {
-    let graph = gen_graph(read_to_string("src/day7/input.txt")?)?;
+    let graph = gen_graph(read_to_string("src/day7/input.txt")?);
     println!("graph: {:#?}", graph);
 
     let final_count = graph.count_containers_of("shiny gold".to_string());
