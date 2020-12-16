@@ -56,6 +56,14 @@ path = "src/day12/main.rs"
 name = "day13"
 path = "src/day13/main.rs"
 
+[[bin]]
+name = "day14"
+path = "src/day14/main.rs"
+
+[[bin]]
+name = "day15"
+path = "src/day15/main.rs"
+
 [dependencies]
 eyre = "0.6.3"
 lazy_static = "1.4.0"
