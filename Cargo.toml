@@ -92,6 +92,10 @@ path = "src/day21/main.rs"
 name = "day22"
 path = "src/day22/main.rs"
 
+[[bin]]
+name = "day23"
+path = "src/day23/main.rs"
+
 [dependencies]
 eyre = "0.6.3"
 lazy_static = "1.4.0"
