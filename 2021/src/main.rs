@@ -17,6 +17,9 @@ fn main() {
         1 => {
             day1::Day1 {}.run();
         }
+        2 => {
+            day2::Day2 {}.run();
+        }
         _ => {
             panic!("failed");
         }
