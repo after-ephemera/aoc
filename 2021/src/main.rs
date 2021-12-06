@@ -1,5 +1,6 @@
 mod days;
 use days::*;
+use eyre::Result;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -9,25 +10,26 @@ struct Opt {
     #[structopt(short = "d", long = "day", default_value = "1")]
     day: u8,
 }
-fn main() {
+fn main() -> Result<()> {
     let opt = Opt::from_args();
     println!("{:?}", opt);
 
     match opt.day {
         1 => {
-            day1::Day1 {}.run();
+            day1::Day1 {}.run()?;
         }
         2 => {
-            day2::Day2 {}.run();
+            day2::Day2 {}.run()?;
         }
         3 => {
-            day3::Day3 {}.run();
+            day3::Day3 {}.run()?;
         }
         4 => {
-            day4::Day4 {}.run();
+            day4::Day4 {}.run()?;
         }
         _ => {
             panic!("failed");
         }
     };
+    Ok(())
 }
