@@ -12,10 +12,10 @@ impl Day2 {
         for line in raw_input.trim().lines() {
             if let [direction, amount] = line.split(' ').collect::<Vec<_>>().as_slice() {
                 let amount_int = u32::from_str(amount)?;
-                match direction {
-                    &"forward" => horiz += amount_int,
-                    &"down" => depth += amount_int,
-                    &"up" => depth -= amount_int,
+                match *direction {
+                    "forward" => horiz += amount_int,
+                    "down" => depth += amount_int,
+                    "up" => depth -= amount_int,
                     _ => panic!("bad direction"),
                 }
             };
@@ -32,13 +32,13 @@ impl Day2 {
         for line in raw_input.trim().lines() {
             if let [direction, amount] = line.split(' ').collect::<Vec<_>>().as_slice() {
                 let amount_int = u32::from_str(amount)?;
-                match direction {
-                    &"forward" => {
+                match *direction {
+                    "forward" => {
                         horiz += amount_int;
                         depth += aim * amount_int;
                     }
-                    &"down" => aim += amount_int,
-                    &"up" => aim -= amount_int,
+                    "down" => aim += amount_int,
+                    "up" => aim -= amount_int,
                     _ => panic!("bad direction"),
                 }
             };

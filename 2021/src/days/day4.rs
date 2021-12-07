@@ -33,7 +33,7 @@ impl Board {
         let mut entries = vec![];
         let rows = raw_board.split('\n').collect::<Vec<_>>();
         let height = rows.len();
-        let width = rows[0].split_whitespace().collect::<Vec<_>>().len();
+        let width = rows[0].split_whitespace().count();
         for row in rows {
             for num in row.trim().split_whitespace() {
                 entries.push(NumberEntry::new(num.parse::<u32>().unwrap()));
@@ -102,7 +102,7 @@ impl fmt::Display for Board {
                 let entry = &self.numbers[y * self.height + x];
                 write!(f, "{}{} ", entry.val, if entry.marked { "*" } else { "" })?;
             }
-            write!(f, "\n")?;
+            writeln!(f)?;
         }
         Ok(())
     }
@@ -162,7 +162,7 @@ impl Day4 {
         let raw_boards = entries.collect::<Vec<_>>();
         let mut boards = vec![];
         for raw_board in raw_boards {
-            let mut new_board = Board::new(&raw_board);
+            let new_board = Board::new(&raw_board);
             boards.push(new_board);
         }
         // println!("boards: {:#?}", boards);

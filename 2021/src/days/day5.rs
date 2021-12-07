@@ -107,16 +107,17 @@ impl fmt::Display for VentMap {
                 if self.at(x, y).line_count > 0 {
                     write!(f, " {} ", self.at(x, y).line_count)?;
                 } else {
-                    write!(f, " . ");
+                    write!(f, " . ")?;
                 }
             }
-            writeln!(f, "")?;
+            writeln!(f)?;
         }
         Ok(())
     }
 }
 
 impl Day5 {
+    #[allow(dead_code)]
     fn run(&self) -> Result<()> {
         Ok(())
     }
@@ -146,9 +147,9 @@ impl Day5 {
             + 1;
         println!("x max: {}, y max: {}", max_x, max_y);
         //println!("raw nums: {:?}", raw_nums.collect::<Vec<_>>());
-        let mut entries = raw_input
+        let entries = raw_input
             .trim()
-            .split("\n")
+            .split('\n')
             .map(|e| {
                 let items = e
                     .split_whitespace()
@@ -162,7 +163,7 @@ impl Day5 {
                     })
                     .collect::<Vec<(i32, i32)>>();
                 //println!("items: {:?}", items);
-                (items[0].clone(), items[1].clone())
+                (items[0], items[1])
             })
             .collect::<Vec<_>>();
 
@@ -195,9 +196,9 @@ impl Day5 {
             + 1;
         println!("x max: {}, y max: {}", max_x, max_y);
         //println!("raw nums: {:?}", raw_nums.collect::<Vec<_>>());
-        let mut entries = raw_input
+        let entries = raw_input
             .trim()
-            .split("\n")
+            .split('\n')
             .map(|e| {
                 let items = e
                     .split_whitespace()
@@ -211,7 +212,7 @@ impl Day5 {
                     })
                     .collect::<Vec<(i32, i32)>>();
                 //println!("items: {:?}", items);
-                (items[0].clone(), items[1].clone())
+                (items[0], items[1])
             })
             .collect::<Vec<_>>();
 

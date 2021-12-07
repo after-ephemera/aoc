@@ -1,5 +1,6 @@
 use super::Day;
 use eyre::Result;
+use std::cmp::Ordering;
 use std::fs::read_to_string;
 
 pub struct Day3 {}
@@ -12,7 +13,7 @@ impl Day3 {
     /// A positive value indicates that the mcb is 1
     /// and a negative value indicates that the mcb is
     /// -1.
-    fn get_mcbs(&self, lines: &Vec<&str>) -> Vec<Option<i32>> {
+    fn get_mcbs(&self, lines: &[&str]) -> Vec<Option<i32>> {
         let mut counts = vec![0; lines[0].len()];
         for line in lines {
             for (i, ch) in line.chars().enumerate() {
@@ -25,13 +26,11 @@ impl Day3 {
             }
         }
         let mut result = vec![None; lines[0].len()];
-        for (i, count) in counts.iter().enumerate() {
-            result[i] = if count > &0 {
-                Some(1)
-            } else if count < &0 {
-                Some(0)
-            } else {
-                None
+        for (i, count) in counts.into_iter().enumerate() {
+            result[i] = match count.cmp(&0) {
+                Ordering::Greater => Some(1),
+                Ordering::Less => Some(0),
+                Ordering::Equal => None,
             };
         }
         result
