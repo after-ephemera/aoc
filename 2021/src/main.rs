@@ -12,7 +12,7 @@ struct Opt {
 }
 fn main() -> Result<()> {
     let opt = Opt::from_args();
-    println!("{:?}", opt);
+    println!("Day {:?}", opt.day);
 
     match opt.day {
         1 => {
@@ -26,6 +26,9 @@ fn main() -> Result<()> {
         }
         4 => {
             day4::Day4 {}.run()?;
+        }
+        5 => {
+            day5::Day5 {}.run()?;
         }
         _ => {
             panic!("failed");
