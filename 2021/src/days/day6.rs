@@ -11,8 +11,10 @@ struct SeaFloor {
 }
 
 impl SeaFloor {
-    fn new() -> Self {
-        SeaFloor { fish: vec![] }
+    fn new(init: Option<Vec<u8>>) -> Self {
+        SeaFloor {
+            fish: init.unwrap_or(vec![]),
+        }
     }
 
     fn pass_days(&mut self, count: u32) -> Result<()> {
@@ -20,13 +22,17 @@ impl SeaFloor {
             let mut fish_to_add = 0;
             for f in &mut self.fish {
                 match f {
-                    0 => {*f = 6;fish_to_add +=1;},
-                    1-8=>*f-=1,
-                    
+                    0 => {
+                        *f = 6;
+                        fish_to_add += 1;
+                    }
+                    1..=NEW_FISH_DAYS => *f -= 1,
+
                     _ => (),
                 };
             }
-            self.fish.append(vec![NEW_FISH_DAYS;fish_to_add]);
+            // add the new fish
+            self.fish.append(&mut vec![NEW_FISH_DAYS; fish_to_add]);
         }
 
         Ok(())
@@ -36,9 +42,22 @@ impl SeaFloor {
 pub struct Day6 {}
 
 impl Day6 {
+    fn parse_input(&self, raw_input: &str) -> Vec<u8> {
+        let initial_state = raw_input
+            .trim()
+            .split(',')
+            .map(|i| {
+                println!("{:?}", i);
+                i.parse::<u8>().unwrap()
+            })
+            .collect::<Vec<_>>();
+        println!("initial state: {:?}", initial_state);
+        initial_state
+    }
+
     fn part_1(&self, raw_input: &str) -> Result<()> {
-        for line in raw_input.trim().lines() {}
-        let floor = SeaFloor::new();
+        let initial_state = self.parse_input(raw_input);
+        let mut floor = SeaFloor::new(Some(initial_state));
         let days = 80;
 
         floor.pass_days(days);
@@ -62,6 +81,7 @@ impl Day for Day6 {
 
         println!("part 2!");
         self.part_2(&sample_raw_input)?;
-        self.part_2(&raw_input)
+        self.part_2(&raw_input)?;
+        Ok(())
     }
 }
