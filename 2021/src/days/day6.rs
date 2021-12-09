@@ -1,38 +1,31 @@
 use super::Day;
 use eyre::Result;
+use std::convert::TryInto;
 use std::fs::read_to_string;
-use std::str::FromStr;
 
-const NEW_FISH_DAYS: u8 = 8;
-const RESET_FISH_DAYS: u32 = 6;
+const NEW_FISH_DAYS: usize = 8;
+const RESET_FISH_DAYS: usize = 6;
 
 struct SeaFloor {
-    fish: Vec<u8>,
+    fish: [usize; NEW_FISH_DAYS + 1],
 }
 
 impl SeaFloor {
-    fn new(init: Option<Vec<u8>>) -> Self {
-        SeaFloor {
-            fish: init.unwrap_or(vec![]),
+    fn new(init: Option<&[usize]>) -> Self {
+        let mut fish = [0; NEW_FISH_DAYS + 1];
+        if let Some(items) = init {
+            for &item in items {
+                fish[item] += 1;
+            }
         }
+        SeaFloor { fish }
     }
 
     fn pass_days(&mut self, count: u32) -> Result<()> {
         for i in 0..count {
-            let mut fish_to_add = 0;
-            for f in &mut self.fish {
-                match f {
-                    0 => {
-                        *f = 6;
-                        fish_to_add += 1;
-                    }
-                    1..=NEW_FISH_DAYS => *f -= 1,
-
-                    _ => (),
-                };
-            }
-            // add the new fish
-            self.fish.append(&mut vec![NEW_FISH_DAYS; fish_to_add]);
+            self.fish.rotate_left(1);
+            self.fish[6] += self.fish[NEW_FISH_DAYS];
+            //println!("day {}, fish: {:?}", i, self.fish);
         }
 
         Ok(())
@@ -42,13 +35,13 @@ impl SeaFloor {
 pub struct Day6 {}
 
 impl Day6 {
-    fn parse_input(&self, raw_input: &str) -> Vec<u8> {
+    fn parse_input(&self, raw_input: &str) -> Vec<usize> {
         let initial_state = raw_input
             .trim()
             .split(',')
             .map(|i| {
-                println!("{:?}", i);
-                i.parse::<u8>().unwrap()
+                //println!("{:?}", i);
+                i.parse::<usize>().unwrap()
             })
             .collect::<Vec<_>>();
         println!("initial state: {:?}", initial_state);
@@ -57,15 +50,29 @@ impl Day6 {
 
     fn part_1(&self, raw_input: &str) -> Result<()> {
         let initial_state = self.parse_input(raw_input);
-        let mut floor = SeaFloor::new(Some(initial_state));
+        let mut floor = SeaFloor::new(Some(&initial_state));
         let days = 80;
 
         floor.pass_days(days);
-        println!("{} fish after {} days", floor.fish.len(), days);
+        println!(
+            "{} fish after {} days",
+            floor.fish.iter().sum::<usize>(),
+            days
+        );
         Ok(())
     }
 
     fn part_2(&self, raw_input: &str) -> Result<()> {
+        let initial_state = self.parse_input(raw_input);
+        let mut floor = SeaFloor::new(Some(&initial_state));
+        let days = 256;
+
+        floor.pass_days(days);
+        println!(
+            "{} fish after {} days",
+            floor.fish.iter().sum::<usize>(),
+            days
+        );
         Ok(())
     }
 }
