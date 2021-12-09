@@ -1,10 +1,8 @@
 use super::Day;
 use eyre::Result;
-use std::convert::TryInto;
 use std::fs::read_to_string;
 
 const NEW_FISH_DAYS: usize = 8;
-const RESET_FISH_DAYS: usize = 6;
 
 struct SeaFloor {
     fish: [usize; NEW_FISH_DAYS + 1],
@@ -22,7 +20,7 @@ impl SeaFloor {
     }
 
     fn pass_days(&mut self, count: u32) -> Result<()> {
-        for i in 0..count {
+        for _ in 0..count {
             self.fish.rotate_left(1);
             self.fish[6] += self.fish[NEW_FISH_DAYS];
             //println!("day {}, fish: {:?}", i, self.fish);
@@ -53,7 +51,7 @@ impl Day6 {
         let mut floor = SeaFloor::new(Some(&initial_state));
         let days = 80;
 
-        floor.pass_days(days);
+        floor.pass_days(days)?;
         println!(
             "{} fish after {} days",
             floor.fish.iter().sum::<usize>(),
@@ -67,7 +65,7 @@ impl Day6 {
         let mut floor = SeaFloor::new(Some(&initial_state));
         let days = 256;
 
-        floor.pass_days(days);
+        floor.pass_days(days)?;
         println!(
             "{} fish after {} days",
             floor.fish.iter().sum::<usize>(),

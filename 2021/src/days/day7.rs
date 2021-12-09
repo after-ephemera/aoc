@@ -3,15 +3,6 @@ use eyre::Result;
 use std::cmp;
 use std::fs::read_to_string;
 
-struct CrabFleet {
-    positions: Vec<u32>,
-}
-
-impl CrabFleet {
-    fn new() -> Self {
-        CrabFleet { positions: vec![] }
-    }
-}
 pub struct Day7 {}
 
 impl Day7 {
