@@ -50,7 +50,7 @@ impl Day8 {
         let unique_segment_count = raw_input
             .trim()
             .lines()
-            .map(|line| line.split('|').skip(1).next().unwrap())
+            .map(|line| line.split('|').nth(1).unwrap())
             .flat_map(|line| {
                 line.split_whitespace()
                     .map(|i| i.len())
@@ -71,8 +71,7 @@ impl Day8 {
         for line in raw_input.trim().lines() {
             let mut signal_map = HashMap::new();
             // find 1,4,7
-            let signal_patterns = line
-                .split_whitespace()
+            line.split_whitespace()
                 .map(|i| (i, self.get_digit_by_segment_count(i.len())))
                 // remove the bar and non-identifiable patterns
                 .filter(|&(i, digit)| i != "|" && digit.is_some() && digit != Some(8))
@@ -90,7 +89,7 @@ impl Day8 {
                 .collect::<HashSet<_>>();
 
             let mut output_for_line = vec![];
-            for output_val in line.split('|').skip(1).next().unwrap().split_whitespace() {
+            for output_val in line.split('|').nth(1).unwrap().split_whitespace() {
                 let digit = match self.get_digit_by_segment_count(output_val.len()) {
                     Some(digit) => digit,
                     None => match output_val.len() {
