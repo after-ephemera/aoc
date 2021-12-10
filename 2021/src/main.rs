@@ -36,6 +36,9 @@ fn main() -> Result<()> {
         7 => {
             day7::Day7 {}.run()?;
         }
+        8 => {
+            day8::Day8 {}.run()?;
+        }
         _ => {
             panic!("failed");
         }
