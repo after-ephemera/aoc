@@ -118,7 +118,7 @@ impl fmt::Display for VentMap {
 
 impl Day5 {
     #[allow(dead_code)]
-    fn run(&self) -> Result<()> {
+    fn run(&mut self) -> Result<()> {
         Ok(())
     }
 }
@@ -224,7 +224,7 @@ impl Day5 {
 }
 
 impl Day for Day5 {
-    fn run(&self) -> Result<()> {
+    fn run(&mut self) -> Result<()> {
         println!("sample");
         let sample_raw_input = read_to_string("src/data/day5-sample")?;
         self.part_1(&sample_raw_input)?;

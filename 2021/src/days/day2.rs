@@ -50,7 +50,7 @@ impl Day2 {
 }
 
 impl Day for Day2 {
-    fn run(&self) -> Result<()> {
+    fn run(&mut self) -> Result<()> {
         println!("sample");
         let sample_raw_input = read_to_string("src/data/day2-sample")?;
         self.part_1(&sample_raw_input)?;

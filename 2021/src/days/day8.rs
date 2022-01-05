@@ -119,7 +119,7 @@ impl Day8 {
 }
 
 impl Day for Day8 {
-    fn run(&self) -> Result<()> {
+    fn run(&mut self) -> Result<()> {
         println!("sample");
         let sample_raw_input = read_to_string("src/data/day8-sample")?;
         self.part_1(&sample_raw_input)?;
