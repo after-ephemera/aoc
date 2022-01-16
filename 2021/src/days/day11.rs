@@ -11,9 +11,9 @@ impl fmt::Display for OctoGrid {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for line in &self.grid {
             for val in line {
-                write!(f, " {:?}", val);
+                write!(f, " {:?}", val)?;
             }
-            writeln!(f, "");
+            writeln!(f)?;
         }
         write!(f, "")
     }
@@ -65,14 +65,11 @@ impl OctoGrid {
         let mut flashed = vec![];
         let mut total_flashes = 0;
         // add one to each item
-        self.grid.iter_mut().flatten().for_each(|i| *i = *i + 1);
+        self.grid.iter_mut().flatten().for_each(|i| *i += 1);
         //println!("after step 1:\n{}", self);
         // flash until no more flashes are possible
-        let mut attempt_num = 0;
         while self.grid.iter().flatten().any(|&i| i >= 10) {
             let mut flashed_in_attempt = 0;
-            //println!("on attempt {}", attempt_num);
-            attempt_num += 1;
             let grid_copy = self.grid.clone();
             for x in 0..grid_copy.len() {
                 for y in 0..grid_copy[0].len() {
@@ -106,8 +103,7 @@ impl OctoGrid {
 
     fn step_n(&mut self, step_count: usize) -> usize {
         let mut total_flashes = 0;
-        for i in 0..step_count {
-            // println!("step {}\n{}", i, self);
+        for _ in 0..step_count {
             let flash_count = self.step();
             total_flashes += flash_count;
             // println!("{} flashes", flash_count);
