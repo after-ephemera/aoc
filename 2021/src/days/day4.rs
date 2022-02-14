@@ -116,7 +116,7 @@ impl Day4 {
         let raw_boards = entries.collect::<Vec<_>>();
         let mut boards = vec![];
         for raw_board in raw_boards {
-            let new_board = Board::new(&raw_board);
+            let new_board = Board::new(raw_board);
             boards.push(new_board);
         }
         // println!("boards: {:#?}", boards);
@@ -162,7 +162,7 @@ impl Day4 {
         let raw_boards = entries.collect::<Vec<_>>();
         let mut boards = vec![];
         for raw_board in raw_boards {
-            let new_board = Board::new(&raw_board);
+            let new_board = Board::new(raw_board);
             boards.push(new_board);
         }
         // println!("boards: {:#?}", boards);

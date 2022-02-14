@@ -9,7 +9,7 @@ impl Day1 {
     fn part_1(&self, raw_input: &str) -> Result<()> {
         let mut times_increased = 0;
         let mut last: Option<u32> = None;
-        for line in raw_input.trim().lines().map(|l| u32::from_str(&l).unwrap()) {
+        for line in raw_input.trim().lines().map(|l| u32::from_str(l).unwrap()) {
             times_increased += if last.unwrap_or(line) < line { 1 } else { 0 };
             last = Some(line);
         }
@@ -23,7 +23,7 @@ impl Day1 {
         for window in raw_input
             .trim()
             .lines()
-            .map(|l| u32::from_str(&l).unwrap())
+            .map(|l| u32::from_str(l).unwrap())
             .collect::<Vec<u32>>()
             .windows(3)
         {

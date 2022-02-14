@@ -75,7 +75,7 @@ impl Day10 {
         let mut score = 0;
         for ch in unmatched_chars.iter().rev() {
             score *= 5;
-            score += COMPLETION_POINT_MAP[&ch];
+            score += COMPLETION_POINT_MAP[ch];
         }
         score
     }
@@ -85,7 +85,7 @@ impl Day10 {
         let mut stack = vec![];
         let mut error_score = 0;
         for (_i, line) in input.iter().enumerate() {
-            match self.process_line(&mut stack, &line) {
+            match self.process_line(&mut stack, line) {
                 Ok(_) => (),
                 Err(match_err) => {
                     //println!("err on line {}", i);
@@ -103,7 +103,7 @@ impl Day10 {
         let input = self.parse_input(raw_input)?;
         for (i, line) in input.iter().enumerate() {
             let mut stack = vec![];
-            if self.process_line(&mut stack, &line).is_ok() {
+            if self.process_line(&mut stack, line).is_ok() {
                 //println!("line {} is incomplete. Remaining items: {:?}", i, stack);
                 let completion_score = self.score_completion(&stack);
                 println!("completion score for {} is {}", i, completion_score);

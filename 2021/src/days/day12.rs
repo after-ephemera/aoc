@@ -17,26 +17,16 @@ impl Day12 {
         Self {}
     }
 
-    fn should_revisit(
-        &self,
-        visited: &Vec<String>,
-        destination: &str,
-        small_cave_rule: bool,
-    ) -> bool {
+    fn should_revisit(&self, visited: &[String], destination: &str, small_cave_rule: bool) -> bool {
         if destination == "start" {
             false
         } else if small_cave_rule {
             // no duplicates in visited
-            let duplicates_in_visited = !(visited.iter().unique().count() == visited.len());
+            let duplicates_in_visited = visited.iter().unique().count() != visited.len();
             if duplicates_in_visited {
                 // another cave was visited twice, thus
                 // this one cannot be visited twice.
-                if visited.contains(&destination.to_string()) {
-                    //println!("duplicate cave {:?}", visited);
-                    false
-                } else {
-                    true
-                }
+                !visited.contains(&destination.to_string())
             } else {
                 // this lowercase cave is the first one to
                 // be visited twice.
@@ -50,7 +40,7 @@ impl Day12 {
     fn get_distinct_paths<'a>(
         &self,
         current_location: &'a str,
-        cave_map: &Vec<Vec<&'a str>>,
+        cave_map: &[Vec<&'a str>],
         visited: Vec<String>,
         depth: usize,
         small_cave_rule: bool,
@@ -74,7 +64,7 @@ impl Day12 {
                     }
                     let distinct_paths = self.get_distinct_paths(
                         link[1],
-                        &cave_map,
+                        cave_map,
                         new_visited.clone(),
                         new_depth,
                         small_cave_rule,
@@ -85,7 +75,7 @@ impl Day12 {
             }
             let reverse_links: Vec<Vec<&str>> = cave_map
                 .iter()
-                .map(|link| link.into_iter().rev().map(|i| *i).collect())
+                .map(|link| link.iter().rev().copied().collect())
                 .collect();
             for link in reverse_links {
                 let mut new_visited = visited.clone();
@@ -97,7 +87,7 @@ impl Day12 {
                     }
                     let distinct_paths = self.get_distinct_paths(
                         link[1],
-                        &cave_map,
+                        cave_map,
                         new_visited.clone(),
                         new_depth,
                         small_cave_rule,
@@ -113,18 +103,18 @@ impl Day12 {
         };
     }
 
-    fn count_distinct_paths(&self, cave_map: &Vec<Vec<&str>>) -> usize {
+    fn count_distinct_paths(&self, cave_map: &[Vec<&str>]) -> usize {
         let visited = vec!["start".to_string()];
         let depth = 0;
-        let paths = self.get_distinct_paths("start", &cave_map, visited, depth, false);
+        let paths = self.get_distinct_paths("start", cave_map, visited, depth, false);
         //println!("paths were {:#?}", paths);
         paths.iter().unique().count()
     }
 
-    fn count_distinct_paths_2(&self, cave_map: &Vec<Vec<&str>>) -> usize {
+    fn count_distinct_paths_2(&self, cave_map: &[Vec<&str>]) -> usize {
         let visited = vec!["start".to_string()];
         let depth = 0;
-        let paths = self.get_distinct_paths("start", &cave_map, visited, depth, true);
+        let paths = self.get_distinct_paths("start", cave_map, visited, depth, true);
         //println!("paths were {:#?}", paths);
         paths.iter().unique().count()
     }
