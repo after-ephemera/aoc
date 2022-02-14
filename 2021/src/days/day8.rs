@@ -22,9 +22,9 @@ impl Day8 {
         corner: &HashSet<char>,
         signal_map: &HashMap<usize, HashSet<char>>,
     ) -> usize {
-        if corner.is_subset(&input) {
+        if corner.is_subset(input) {
             5
-        } else if signal_map.get(&7).unwrap().is_subset(&input) {
+        } else if signal_map.get(&7).unwrap().is_subset(input) {
             3
         } else {
             2
@@ -37,9 +37,9 @@ impl Day8 {
         corner: &HashSet<char>,
         signal_map: &HashMap<usize, HashSet<char>>,
     ) -> usize {
-        if signal_map.get(&4).unwrap().is_subset(&input) {
+        if signal_map.get(&4).unwrap().is_subset(input) {
             9
-        } else if corner.is_subset(&input) {
+        } else if corner.is_subset(input) {
             6
         } else {
             0
