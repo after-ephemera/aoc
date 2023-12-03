@@ -1,3 +1,4 @@
+mod cubes;
 mod trebuchet;
 
 use anyhow::Result;
@@ -22,6 +23,7 @@ fn main() -> Result<()> {
     let args = Args::parse();
     match args.day {
         1 => trebuchet::run(),
+        2 => cubes::run(),
         _ => {
             info!("not done yet");
             Ok(())
