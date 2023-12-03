@@ -1,0 +1,17 @@
+[package]
+name = "aoc-2023"
+version = "0.1.0"
+edition = "2021"
+authors = ["Jk Jensen <azjkjensen@gmail.com>"]
+
+[dependencies]
+eyre = "0.6.3"
+lazy_static = "1.4.0"
+regex = "1.4.2"
+structopt = "0.3.25"
+maplit = "1.0.2"
+itertools = "0.8.0"
+env_logger = "0.10.1"
+log = "0.4.20"
+anyhow = "1.0.75"
+clap = { version = "4.4.10", features = ["derive"] }
