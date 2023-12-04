@@ -41,10 +41,10 @@ fn cubes_1(name: &str, f: &str) -> Result<()> {
         .filter_map(|(i, game)| {
             let game_not_possible = game
                 .trim_start_matches(&format!("Game {}:", i + 1))
-                .split(";")
+                .split(';')
                 .any(|round| {
-                    round.split(",").any(|cube| {
-                        let entry = cube.trim().split(" ").collect::<Vec<_>>();
+                    round.split(',').any(|cube| {
+                        let entry = cube.trim().split(' ').collect::<Vec<_>>();
                         let (count, color) = (
                             entry[0]
                                 .parse::<usize>()
@@ -79,10 +79,10 @@ fn cubes_2(name: &str, f: &str) -> Result<()> {
             let mut green_heap = BinaryHeap::new();
             let mut blue_heap = BinaryHeap::new();
             game.trim_start_matches(&format!("Game {}:", i + 1))
-                .split(";")
+                .split(';')
                 .for_each(|round| {
-                    round.split(",").for_each(|cube| {
-                        let entry = cube.trim().split(" ").collect::<Vec<_>>();
+                    round.split(',').for_each(|cube| {
+                        let entry = cube.trim().split(' ').collect::<Vec<_>>();
                         let (count, color) = (
                             entry[0]
                                 .parse::<usize>()

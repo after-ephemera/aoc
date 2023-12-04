@@ -21,15 +21,15 @@ fn to_parts(y: usize, mut line: &mut str) -> Vec<Part> {
     let mut parts = vec![];
     let mut x = 0;
     while !line.is_empty() {
-        if line.starts_with(|c: char| c.is_digit(10)) {
-            if let Some(end_index) = line.find(|c: char| !c.is_digit(10)) {
+        if line.starts_with(|c: char| c.is_ascii_digit()) {
+            if let Some(end_index) = line.find(|c: char| !c.is_ascii_digit()) {
                 parts.push(Part {
                     number: line[..end_index].to_string(),
                     location: (y, x),
                 });
                 x += end_index;
                 line = &mut line[end_index..];
-            } else if line.chars().all(|c| c.is_digit(10)) {
+            } else if line.chars().all(|c| c.is_ascii_digit()) {
                 parts.push(Part {
                     number: line.to_owned(),
                     location: (y, x),
@@ -115,7 +115,7 @@ impl Schematic {
                 {
                     false
                 } else if self.cells[(y + dy) as usize][(x + dx) as usize] != '.'
-                    && !self.cells[(y + dy) as usize][(x + dx) as usize].is_digit(10)
+                    && !self.cells[(y + dy) as usize][(x + dx) as usize].is_ascii_digit()
                 {
                     // debug!(
                     //     "is_adjacent_to_symbol: {} at ({}, {})",

@@ -48,7 +48,7 @@ fn trebuchet_2(name: &str, f: &str) {
             let mut first_digit = '!';
             for (i, ch) in line.chars().enumerate() {
                 let line_remainder = &line.clone()[i..];
-                if ch.is_digit(10) {
+                if ch.is_ascii_digit() {
                     first_digit = ch;
                     break;
                 } else {
@@ -68,7 +68,7 @@ fn trebuchet_2(name: &str, f: &str) {
             for (i, ch) in line.chars().rev().enumerate() {
                 let i = line.len() - 1 - i;
                 let line_remainder = &line.clone()[i..];
-                if ch.is_digit(10) {
+                if ch.is_ascii_digit() {
                     last_digit = ch;
                     break;
                 } else {
@@ -87,7 +87,7 @@ fn trebuchet_2(name: &str, f: &str) {
                 .context(format!("{}: {} and {}", name, first_digit, last_digit))
                 .unwrap();
             debug!("{}: {} and {}", line_result, first_digit, last_digit);
-            return line_result;
+            line_result
         })
         .sum();
 
@@ -98,9 +98,9 @@ fn trebuchet_1(name: &str, f: &str) {
     let res: i32 = f
         .lines()
         .map(|line| {
-            let digit_chars = line.chars().filter(|ch| ch.is_digit(10));
+            let digit_chars = line.chars().filter(|ch| ch.is_ascii_digit());
             let line_num = vec![
-                digit_chars.clone().nth(0).unwrap(),
+                digit_chars.clone().next().unwrap(),
                 digit_chars.last().unwrap(),
             ]
             .iter()
