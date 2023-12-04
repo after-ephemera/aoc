@@ -1,7 +1,7 @@
 use anyhow::Context;
 use lazy_static::lazy_static;
-use log::LevelFilter;
-use log::{debug, error, info, log_enabled, Level};
+
+use log::{debug, info};
 use std::collections::HashMap;
 
 lazy_static! {
@@ -98,7 +98,7 @@ fn trebuchet_1(name: &str, f: &str) {
     let res: i32 = f
         .lines()
         .map(|line| {
-            let mut digit_chars = line.chars().filter(|ch| ch.is_digit(10));
+            let digit_chars = line.chars().filter(|ch| ch.is_digit(10));
             let line_num = vec![
                 digit_chars.clone().nth(0).unwrap(),
                 digit_chars.last().unwrap(),

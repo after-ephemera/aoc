@@ -5,7 +5,7 @@ mod trebuchet;
 use anyhow::Result;
 use clap::Parser;
 use log::LevelFilter;
-use log::{debug, error, info, log_enabled, Level};
+use log::{info};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]

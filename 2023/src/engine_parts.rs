@@ -1,7 +1,7 @@
-use anyhow::{Context, Result};
-use lazy_static::lazy_static;
-use log::{debug, error, info, log_enabled, Level};
-use std::collections::HashMap;
+use anyhow::{Result};
+
+use log::{debug, info};
+
 use std::collections::HashSet;
 
 #[derive(Debug)]
@@ -45,7 +45,7 @@ fn to_parts(y: usize, mut line: &mut str) -> Vec<Part> {
     parts
 }
 
-fn to_gears(y: usize, mut line: &mut str) -> Vec<(usize, usize)> {
+fn to_gears(y: usize, line: &mut str) -> Vec<(usize, usize)> {
     line.chars()
         .enumerate()
         .flat_map(|(x, c)| if c == '*' { Some((y, x)) } else { None })

@@ -1,7 +1,7 @@
 use anyhow::Context;
 use anyhow::Result;
 use lazy_static::lazy_static;
-use log::{debug, error, info, log_enabled, Level};
+use log::{debug, error, info};
 use std::collections::BinaryHeap;
 use std::collections::HashMap;
 
