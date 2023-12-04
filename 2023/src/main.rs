@@ -1,4 +1,5 @@
 mod cubes;
+mod engine_parts;
 mod trebuchet;
 
 use anyhow::Result;
@@ -10,7 +11,7 @@ use log::{debug, error, info, log_enabled, Level};
 #[command(author, version, about, long_about = None)]
 struct Args {
     /// day to run
-    #[arg(short, long, default_value_t = 2)]
+    #[arg(short, long, default_value_t = 3)]
     day: u8,
 }
 
@@ -21,9 +22,11 @@ fn main() -> Result<()> {
         .init();
 
     let args = Args::parse();
+    info!("day {}", args.day);
     match args.day {
         1 => trebuchet::run(),
         2 => cubes::run(),
+        3 => engine_parts::run(),
         _ => {
             info!("not done yet");
             Ok(())
