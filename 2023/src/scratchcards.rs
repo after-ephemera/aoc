@@ -1,7 +1,7 @@
-use anyhow::Context;
+
 use anyhow::Result;
-use lazy_static::lazy_static;
-use log::{debug, error, info};
+
+use log::{debug, info};
 use regex::Regex;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -33,8 +33,8 @@ fn scratchcards_1(name: &str, f: &str) -> Result<()> {
 }
 
 fn get_points_from_card(card: &str) -> usize {
-    debug!("card: {}", card.clone().split(":").next().unwrap());
-    let card_vals = Regex::new("Card [0-9]+:").unwrap().replace_all(&card, "");
+    debug!("card: {}", card.clone().split(':').next().unwrap());
+    let card_vals = Regex::new("Card [0-9]+:").unwrap().replace_all(card, "");
     let parts = card_vals
         .split('|')
         .map(str::trim)
@@ -62,8 +62,8 @@ fn get_points_from_card(card: &str) -> usize {
 }
 
 fn get_points_from_card_2(card: &str) -> usize {
-    debug!("card: {}", card.clone().split(":").next().unwrap());
-    let card_vals = Regex::new("Card [0-9]+:").unwrap().replace_all(&card, "");
+    debug!("card: {}", card.clone().split(':').next().unwrap());
+    let card_vals = Regex::new("Card [0-9]+:").unwrap().replace_all(card, "");
     let parts = card_vals
         .split('|')
         .map(str::trim)
